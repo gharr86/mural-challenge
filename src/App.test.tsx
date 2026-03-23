@@ -1,9 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import type { ReactNode } from 'react';
+import { ThemeProvider } from 'styled-components';
 import '@testing-library/jest-dom';
 import App from './App';
 import { useNotesQuery } from './api/json-server/api';
+import { theme } from './theme';
 
 jest.mock('./api/json-server/api', () => ({
   useNotesQuery: jest.fn(),
@@ -19,7 +21,9 @@ const createWrapper = () => {
   });
 
   return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

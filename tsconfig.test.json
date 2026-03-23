@@ -9,7 +9,8 @@
     "src/**/*.test.tsx",
     "src/jest.setup.ts",
     "src/test/**/*",
-    "src/vite-env.d.ts"
+    "src/vite-env.d.ts",
+    "src/styled.d.ts"
   ],
   "exclude": []
 }
