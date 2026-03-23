@@ -1,7 +1,13 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen } from '@testing-library/react'
-import type { ReactNode } from 'react'
-import App from './App'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render } from '@testing-library/react';
+import type { ReactNode } from 'react';
+import '@testing-library/jest-dom';
+import App from './App';
+import { useNotesQuery } from './api/json-server/api';
+
+jest.mock('./api/json-server/api', () => ({
+  useNotesQuery: jest.fn(),
+}));
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -10,24 +16,36 @@ const createWrapper = () => {
         retry: false,
       },
     },
-  })
+  });
 
   return ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
-}
+  );
+};
 
 describe('App', () => {
-  it('renders fetched posts', async () => {
-    const fetchMock = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => [{ id: 1, title: 'First post' }],
-    } as Response)
-    globalThis.fetch = fetchMock as unknown as typeof fetch
+  it('renders fetched notes', async () => {
+    const mockedUseNotesQuery = jest.mocked(useNotesQuery);
+    mockedUseNotesQuery.mockReturnValue({
+      data: [
+        {
+          id: '1',
+          text: 'Buy milk',
+          x: 10,
+          y: 20,
+          author: 'Guillermo',
+          color: '#ffeb3b',
+          createdAt: '2026-03-20T12:00:00.000Z',
+        },
+      ],
+      isPending: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useNotesQuery>);
 
-    render(<App />, { wrapper: createWrapper() })
+    const { getByText } = render(<App />, { wrapper: createWrapper() });
 
-    expect(screen.getByText('Loading posts...')).toBeInTheDocument()
-    expect(await screen.findByText('First post')).toBeInTheDocument()
-  })
-})
+    expect(getByText('Guillermo')).toBeInTheDocument();
+    expect(getByText(/Buy milk/)).toBeInTheDocument();
+  });
+});

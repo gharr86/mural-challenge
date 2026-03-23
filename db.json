@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "notes": [
+    {
+      "id": "1",
+      "text": "This is a note",
+      "x": 120,
+      "y": 80,
+      "author": "john doe",
+      "color": "tokens.red",
+      "createdAt": "2026-03-20T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "text": "This is also a note",
+      "x": 380,
+      "y": 200,
+      "author": "jane doeson",
+      "color": "tokens.orange",
+      "createdAt": "2026-03-22T09:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "text": "This is another note",
+      "x": 580,
+      "y": 300,
+      "author": "johnny depp",
+      "color": "tokens.green",
+      "createdAt": "2026-03-10T09:30:00.000Z"
+    }
+  ]
+}
