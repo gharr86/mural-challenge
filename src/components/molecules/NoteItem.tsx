@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import type { Note } from '../../api/json-server/types/models';
 import { resolveNoteColor } from '../../theme';
+import useDomId from '../../utils/hooks/useDomId';
 
 const Root = styled.div<{ $x: number; $y: number }>`
   position: absolute;
@@ -18,6 +19,11 @@ const Article = styled.article<{ $backgroundColor: string }>`
   border: 1px solid rgba(17, 24, 39, 0.12);
   background: ${(p) => p.$backgroundColor};
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 2px;
+  }
 `;
 
 const Header = styled.header`
@@ -30,14 +36,15 @@ const CreatedAt = styled.time`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-const Body = styled.section`
+const Body = styled.div`
   flex: 1;
   padding: 0.75rem 0;
 `;
 
-const Text = styled.p`
+const NoteHeading = styled.h2`
   margin: 0;
   font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: 400;
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
@@ -58,18 +65,30 @@ const Author = styled.address`
 
 function NoteItem({ id, text, x, y, author, color, createdAt }: Note) {
   const backgroundColor = resolveNoteColor(color);
+  const articleId = useDomId('note');
+  const headingId = useDomId('note-heading');
+  const timeId = useDomId('note-time');
+  const authorId = useDomId('note-author');
 
   return (
     <Root $x={x} $y={y} data-note-id={id} data-x={x} data-y={y}>
-      <Article $backgroundColor={backgroundColor}>
+      <Article
+        id={articleId}
+        tabIndex={0}
+        $backgroundColor={backgroundColor}
+        aria-labelledby={headingId}
+        aria-describedby={`${timeId} ${authorId}`}
+      >
         <Header>
-          <CreatedAt dateTime={createdAt}>{createdAt}</CreatedAt>
+          <CreatedAt id={timeId} dateTime={createdAt}>
+            {createdAt}
+          </CreatedAt>
         </Header>
         <Body>
-          <Text>{text}</Text>
+          <NoteHeading id={headingId}>{text}</NoteHeading>
         </Body>
         <Footer>
-          <Author>{author}</Author>
+          <Author id={authorId}>{author}</Author>
         </Footer>
       </Article>
     </Root>

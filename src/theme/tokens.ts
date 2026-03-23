@@ -5,6 +5,8 @@ export const colorTokens = {
   textPrimary: '#111827',
   textSecondary: '#374151',
   textMuted: '#6b7280',
+  /** Focus ring for keyboard focus-visible (links, note cards, etc.) */
+  focusRing: '#2563eb',
 } as const;
 
 export type ColorTokenName = keyof typeof colorTokens;

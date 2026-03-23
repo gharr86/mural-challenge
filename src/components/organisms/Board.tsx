@@ -4,6 +4,7 @@ import NoteItem from '../molecules/NoteItem';
 
 type BoardProps = {
   notes: Note[];
+  regionId: string;
 };
 
 const Canvas = styled.section`
@@ -11,9 +12,9 @@ const Canvas = styled.section`
   min-height: 70vh;
 `;
 
-function Board({ notes }: BoardProps) {
+function Board({ notes, regionId }: BoardProps) {
   return (
-    <Canvas>
+    <Canvas id={regionId} role="region" aria-label="Notes board" tabIndex={-1}>
       {notes.map((note) => (
         <NoteItem
           key={note.id}

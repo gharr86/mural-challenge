@@ -19,6 +19,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.95.2",
     "json-server": "^1.0.0-beta.14",
+    "nanoid": "^5.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.3.12"
