@@ -10,4 +10,4 @@ module.exports = {
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/src/test/fileMock.ts',
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
-}
+};
