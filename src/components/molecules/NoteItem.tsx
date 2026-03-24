@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
+
 import type { Note } from '../../api/json-server/types/models';
 import { resolveNoteColor } from '../../theme';
 import formatNoteDate from '../../utils/dateUtils';

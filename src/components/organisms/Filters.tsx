@@ -1,5 +1,6 @@
 import { useId, type KeyboardEvent } from 'react';
 import styled from 'styled-components';
+
 import SelectInput from '../molecules/SelectInput';
 
 export const FILTERS_BAR_HEIGHT_PX = 60;

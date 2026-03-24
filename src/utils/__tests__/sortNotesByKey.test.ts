@@ -1,5 +1,5 @@
-import sortNotesByKey from '../sortNotesByKey';
 import createMockNote from '../../test/mocks/notes';
+import sortNotesByKey from '../sortNotesByKey';
 
 describe('sortNotesByKey', () => {
   it('sorts by author ascending', () => {

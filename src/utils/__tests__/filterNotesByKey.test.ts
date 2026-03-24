@@ -1,5 +1,5 @@
-import filterNotesByKey from '../filterNotesByKey';
 import createMockNote from '../../test/mocks/notes';
+import filterNotesByKey from '../filterNotesByKey';
 
 describe('filterNotesByKey', () => {
   it('returns an empty array when given no notes', () => {

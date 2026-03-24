@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react';
+
 import createMockNote from '../../../test/mocks/notes';
 import useNotesFilters from '../useNotesFilters';
 

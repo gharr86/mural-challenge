@@ -45,6 +45,20 @@ export default tseslint.config(
       semi: ['error', 'always'],
       'react/react-in-jsx-scope': 'off',
       'import/extensions': 'off',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object',
+          ],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
       'import/no-extraneous-dependencies': [
         'error',
         {

@@ -1,13 +1,15 @@
 import { useState } from 'react';
+
+import { useJsonServerApi } from './api/json-server';
 import Main from './components/atoms/Main';
+import QueryStateNotice from './components/molecules/QueryStateNotice';
 import Board from './components/organisms/Board';
 import Filters from './components/organisms/Filters';
-import QueryStateNotice from './components/molecules/QueryStateNotice';
-import { useNotesQuery } from './api/json-server/api';
 import useDomId from './utils/hooks/useDomId';
 import useNotesFilters from './utils/hooks/useNotesFilters';
 
 function App() {
+  const { useNotesQuery } = useJsonServerApi();
   const { data, isPending, isError, error } = useNotesQuery();
   const [authorFilter, setAuthorFilter] = useState('');
   const [colorFilter, setColorFilter] = useState('');

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+
 import type { Note } from '../../api/json-server/types';
 import filterNotesByKey from '../filterNotesByKey';
 import sortNotesByKey, { type SortDirection } from '../sortNotesByKey';

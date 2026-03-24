@@ -2,14 +2,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, within } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
+
 import '@testing-library/jest-dom';
+import { useJsonServerApi } from './api/json-server';
 import App from './App';
-import { useNotesQuery } from './api/json-server/api';
 import createMockNote from './test/mocks/notes';
 import { theme } from './theme';
 
-jest.mock('./api/json-server/api', () => ({
-  useNotesQuery: jest.fn(),
+jest.mock('./api/json-server', () => ({
+  useJsonServerApi: jest.fn(),
 }));
 
 const createWrapper = () => {
@@ -30,8 +31,7 @@ const createWrapper = () => {
 
 describe('App', () => {
   it('renders fetched notes', async () => {
-    const mockedUseNotesQuery = jest.mocked(useNotesQuery);
-    mockedUseNotesQuery.mockReturnValue({
+    const mockedUseNotesQuery = jest.fn().mockReturnValue({
       data: [
         createMockNote({
           id: '1',
@@ -45,7 +45,11 @@ describe('App', () => {
       isPending: false,
       isError: false,
       error: null,
-    } as ReturnType<typeof useNotesQuery>);
+    });
+    jest.mocked(useJsonServerApi).mockReturnValue({
+      useNotesQuery: mockedUseNotesQuery,
+      noteQueryKeys: { all: ['notes'] as const },
+    });
 
     const { getByRole } = render(<App />, { wrapper: createWrapper() });
 

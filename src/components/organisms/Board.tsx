@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+
+import { FILTERS_BAR_HEIGHT_PX } from './Filters';
 import type { Note } from '../../api/json-server/types/models';
 import NoteItem from '../molecules/NoteItem';
-import { FILTERS_BAR_HEIGHT_PX } from './Filters';
 
 type BoardProps = {
   notes: Note[];
