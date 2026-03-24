@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
 import '@testing-library/jest-dom';
@@ -47,9 +47,10 @@ describe('App', () => {
       error: null,
     } as ReturnType<typeof useNotesQuery>);
 
-    const { getByText } = render(<App />, { wrapper: createWrapper() });
+    const { getByRole } = render(<App />, { wrapper: createWrapper() });
 
-    expect(getByText('Guillermo')).toBeInTheDocument();
-    expect(getByText(/Buy milk/)).toBeInTheDocument();
+    const board = getByRole('region', { name: 'Notes board' });
+    expect(within(board).getByText('Guillermo')).toBeInTheDocument();
+    expect(within(board).getByText(/Buy milk/)).toBeInTheDocument();
   });
 });

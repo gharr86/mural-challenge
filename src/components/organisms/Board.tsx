@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import type { Note } from '../../api/json-server/types/models';
 import NoteItem from '../molecules/NoteItem';
+import { FILTERS_BAR_HEIGHT_PX } from './Filters';
 
 type BoardProps = {
   notes: Note[];
@@ -9,7 +10,8 @@ type BoardProps = {
 
 const Canvas = styled.section`
   position: relative;
-  min-height: 70vh;
+  width: 100%;
+  min-height: calc(100vh - ${FILTERS_BAR_HEIGHT_PX}px);
 `;
 
 function Board({ notes, regionId }: BoardProps) {
