@@ -97,7 +97,15 @@ function NoteItem({
   const authorId = useDomId('note-author');
 
   return (
-    <Root $x={x} $y={y} $isGridMode={isGridMode} data-note-id={id} data-x={x} data-y={y}>
+    <Root
+      $x={x}
+      $y={y}
+      $isGridMode={isGridMode}
+      data-testid="note-card"
+      data-note-id={id}
+      data-x={x}
+      data-y={y}
+    >
       <Article
         id={articleId}
         tabIndex={0}

@@ -4,6 +4,7 @@ import globals from 'globals';
 import { FlatCompat } from '@eslint/eslintrc';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import cypressPlugin from 'eslint-plugin-cypress/flat';
 import prettierPlugin from 'eslint-plugin-prettier';
 import tseslint from 'typescript-eslint';
 
@@ -22,7 +23,7 @@ const airbnbConfigs = compat
   }));
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'eslint.config.js', 'jest.config.cjs'] },
+  { ignores: ['dist', 'coverage', 'eslint.config.js', 'jest.config.cjs', 'cypress/downloads'] },
   ...airbnbConfigs,
   {
     files: ['**/*.{ts,tsx}'],
@@ -30,7 +31,12 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.test.json', './tsconfig.node.json'],
+        project: [
+          './tsconfig.app.json',
+          './tsconfig.test.json',
+          './tsconfig.node.json',
+          './tsconfig.cypress.json',
+        ],
         tsconfigRootDir: __dirname,
       },
     },
@@ -69,11 +75,27 @@ export default tseslint.config(
             'vite.config.ts',
             'eslint.config.js',
             'jest.config.cjs',
+            'cypress/**/*.ts',
+            'cypress.config.ts',
           ],
         },
       ],
       'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
       'react/function-component-definition': 'off',
+    },
+  },
+  {
+    files: ['cypress/**/*.ts', 'cypress.config.ts'],
+    ...cypressPlugin.configs.recommended,
+    rules: {
+      ...cypressPlugin.configs.recommended.rules,
+      'import/prefer-default-export': 'off',
+      'import/no-extraneous-dependencies': [
+        'error',
+        {
+          devDependencies: true,
+        },
+      ],
     },
   },
 );

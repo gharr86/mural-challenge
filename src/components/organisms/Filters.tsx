@@ -78,6 +78,7 @@ function Filters({
 
       <SelectInput
         id={authorFieldId}
+        dataTestId="filter-select-author"
         label="Author"
         value={authorValue}
         options={authors.map((author) => ({ value: author, label: author }))}
@@ -90,6 +91,7 @@ function Filters({
 
       <SelectInput
         id={colorFieldId}
+        dataTestId="filter-select-color"
         label="Color"
         value={colorValue}
         options={colors.map((color) => ({ value: color, label: color }))}
@@ -102,6 +104,7 @@ function Filters({
 
       <SelectInput
         id={sortFieldId}
+        dataTestId="filter-select-sort"
         label="Sort by"
         value={sortValue}
         options={[

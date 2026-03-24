@@ -8,6 +8,7 @@ type SelectInputOption = {
 
 type SelectInputProps = {
   id: string;
+  dataTestId: string;
   label: string;
   value: string;
   options: SelectInputOption[];
@@ -48,6 +49,7 @@ const Select = styled.select`
 
 function SelectInput({
   id,
+  dataTestId,
   label,
   value,
   options,
@@ -62,6 +64,7 @@ function SelectInput({
       <Label htmlFor={id}>{label}</Label>
       <Select
         id={id}
+        data-testid={dataTestId}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}

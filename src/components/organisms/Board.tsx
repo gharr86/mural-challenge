@@ -24,7 +24,14 @@ const Canvas = styled.section<{ $isSorted: boolean }>`
 
 function Board({ notes, regionId, isSorted, mostRecentNoteId }: BoardProps) {
   return (
-    <Canvas id={regionId} role="region" aria-label="Notes board" tabIndex={-1} $isSorted={isSorted}>
+    <Canvas
+      id={regionId}
+      data-testid="notes-board"
+      role="region"
+      aria-label="Notes board"
+      tabIndex={-1}
+      $isSorted={isSorted}
+    >
       {notes.map((note) => (
         <NoteItem
           key={note.id}
