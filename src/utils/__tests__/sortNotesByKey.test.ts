@@ -1,23 +1,12 @@
-import type { Note } from '../../api/json-server/types';
 import sortNotesByKey from '../sortNotesByKey';
-
-const baseNote = (overrides: Partial<Note>): Note => ({
-  id: 'n1',
-  text: 'Hello',
-  x: 0,
-  y: 0,
-  author: 'Ada',
-  color: 'tokens.red',
-  createdAt: '2026-03-20T12:00:00.000Z',
-  ...overrides,
-});
+import createMockNote from '../../test/mocks/notes';
 
 describe('sortNotesByKey', () => {
   it('sorts by author ascending', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Zoe' }),
-      baseNote({ id: '2', author: 'Ada' }),
-      baseNote({ id: '3', author: 'Bob' }),
+      createMockNote({ id: '1', author: 'Zoe' }),
+      createMockNote({ id: '2', author: 'Ada' }),
+      createMockNote({ id: '3', author: 'Bob' }),
     ];
 
     const result = sortNotesByKey(notes, 'author', 'asc');
@@ -27,9 +16,9 @@ describe('sortNotesByKey', () => {
 
   it('sorts by author descending', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Zoe' }),
-      baseNote({ id: '2', author: 'Ada' }),
-      baseNote({ id: '3', author: 'Bob' }),
+      createMockNote({ id: '1', author: 'Zoe' }),
+      createMockNote({ id: '2', author: 'Ada' }),
+      createMockNote({ id: '3', author: 'Bob' }),
     ];
 
     const result = sortNotesByKey(notes, 'author', 'desc');
@@ -39,9 +28,9 @@ describe('sortNotesByKey', () => {
 
   it('sorts by createdAt ascending', () => {
     const notes = [
-      baseNote({ id: '1', createdAt: '2026-03-22T09:30:00.000Z' }),
-      baseNote({ id: '2', createdAt: '2026-03-10T09:30:00.000Z' }),
-      baseNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
+      createMockNote({ id: '1', createdAt: '2026-03-22T09:30:00.000Z' }),
+      createMockNote({ id: '2', createdAt: '2026-03-10T09:30:00.000Z' }),
+      createMockNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
     ];
 
     const result = sortNotesByKey(notes, 'createdAt', 'asc');
@@ -51,9 +40,9 @@ describe('sortNotesByKey', () => {
 
   it('sorts by createdAt descending', () => {
     const notes = [
-      baseNote({ id: '1', createdAt: '2026-03-22T09:30:00.000Z' }),
-      baseNote({ id: '2', createdAt: '2026-03-10T09:30:00.000Z' }),
-      baseNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
+      createMockNote({ id: '1', createdAt: '2026-03-22T09:30:00.000Z' }),
+      createMockNote({ id: '2', createdAt: '2026-03-10T09:30:00.000Z' }),
+      createMockNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
     ];
 
     const result = sortNotesByKey(notes, 'createdAt', 'desc');
@@ -62,7 +51,10 @@ describe('sortNotesByKey', () => {
   });
 
   it('returns a new array without mutating input', () => {
-    const notes = [baseNote({ id: '1', author: 'Zoe' }), baseNote({ id: '2', author: 'Ada' })];
+    const notes = [
+      createMockNote({ id: '1', author: 'Zoe' }),
+      createMockNote({ id: '2', author: 'Ada' }),
+    ];
     const originalIds = notes.map((note) => note.id);
 
     const result = sortNotesByKey(notes, 'author', 'asc');
@@ -73,9 +65,9 @@ describe('sortNotesByKey', () => {
 
   it('keeps the original order when compared values are equal (stable)', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Ada' }),
-      baseNote({ id: '2', author: 'Ada' }),
-      baseNote({ id: '3', author: 'Ada' }),
+      createMockNote({ id: '1', author: 'Ada' }),
+      createMockNote({ id: '2', author: 'Ada' }),
+      createMockNote({ id: '3', author: 'Ada' }),
     ];
 
     const result = sortNotesByKey(notes, 'author', 'asc');

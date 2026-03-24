@@ -1,17 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import type { Note } from '../../../api/json-server/types';
+import createMockNote from '../../../test/mocks/notes';
 import useNotesFilters from '../useNotesFilters';
-
-const baseNote = (overrides: Partial<Note>): Note => ({
-  id: 'n1',
-  text: 'Hello',
-  x: 0,
-  y: 0,
-  author: 'Ada',
-  color: 'tokens.red',
-  createdAt: '2026-03-20T12:00:00.000Z',
-  ...overrides,
-});
 
 describe('useNotesFilters', () => {
   it('returns empty data when notes are undefined', () => {
@@ -32,10 +21,10 @@ describe('useNotesFilters', () => {
 
   it('returns unique sorted author and color options from notes', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Zoe', color: 'tokens.green' }),
-      baseNote({ id: '2', author: 'Ada', color: 'tokens.red' }),
-      baseNote({ id: '3', author: 'Ada', color: 'tokens.red' }),
-      baseNote({ id: '4', author: 'Bob', color: 'tokens.orange' }),
+      createMockNote({ id: '1', author: 'Zoe', color: 'tokens.green' }),
+      createMockNote({ id: '2', author: 'Ada', color: 'tokens.red' }),
+      createMockNote({ id: '3', author: 'Ada', color: 'tokens.red' }),
+      createMockNote({ id: '4', author: 'Bob', color: 'tokens.orange' }),
     ];
 
     const { result } = renderHook(() =>
@@ -53,9 +42,9 @@ describe('useNotesFilters', () => {
 
   it('filters by author and color when both filters are set', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Ada', color: 'tokens.red' }),
-      baseNote({ id: '2', author: 'Ada', color: 'tokens.green' }),
-      baseNote({ id: '3', author: 'Bob', color: 'tokens.red' }),
+      createMockNote({ id: '1', author: 'Ada', color: 'tokens.red' }),
+      createMockNote({ id: '2', author: 'Ada', color: 'tokens.green' }),
+      createMockNote({ id: '3', author: 'Bob', color: 'tokens.red' }),
     ];
 
     const { result } = renderHook(() =>
@@ -71,7 +60,7 @@ describe('useNotesFilters', () => {
   });
 
   it('keeps all notes when no filters are selected', () => {
-    const notes = [baseNote({ id: '1' }), baseNote({ id: '2', author: 'Bob' })];
+    const notes = [createMockNote({ id: '1' }), createMockNote({ id: '2', author: 'Bob' })];
 
     const { result } = renderHook(() =>
       useNotesFilters({
@@ -87,9 +76,9 @@ describe('useNotesFilters', () => {
 
   it('applies sorting when sortValue is selected', () => {
     const notes = [
-      baseNote({ id: '1', author: 'Zoe' }),
-      baseNote({ id: '2', author: 'Ada' }),
-      baseNote({ id: '3', author: 'Bob' }),
+      createMockNote({ id: '1', author: 'Zoe' }),
+      createMockNote({ id: '2', author: 'Ada' }),
+      createMockNote({ id: '3', author: 'Bob' }),
     ];
 
     const { result } = renderHook(() =>
@@ -106,9 +95,9 @@ describe('useNotesFilters', () => {
 
   it('returns the id of the most recent note in current results', () => {
     const notes = [
-      baseNote({ id: '1', createdAt: '2026-03-10T09:30:00.000Z' }),
-      baseNote({ id: '2', createdAt: '2026-03-22T09:30:00.000Z' }),
-      baseNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
+      createMockNote({ id: '1', createdAt: '2026-03-10T09:30:00.000Z' }),
+      createMockNote({ id: '2', createdAt: '2026-03-22T09:30:00.000Z' }),
+      createMockNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
     ];
 
     const { result } = renderHook(() =>

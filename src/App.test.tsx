@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import '@testing-library/jest-dom';
 import App from './App';
 import { useNotesQuery } from './api/json-server/api';
+import createMockNote from './test/mocks/notes';
 import { theme } from './theme';
 
 jest.mock('./api/json-server/api', () => ({
@@ -32,15 +33,14 @@ describe('App', () => {
     const mockedUseNotesQuery = jest.mocked(useNotesQuery);
     mockedUseNotesQuery.mockReturnValue({
       data: [
-        {
+        createMockNote({
           id: '1',
-          text: 'Buy milk',
+          text: 'My note',
           x: 10,
           y: 20,
-          author: 'Guillermo',
+          author: 'Johnny Doe',
           color: '#ffeb3b',
-          createdAt: '2026-03-20T12:00:00.000Z',
-        },
+        }),
       ],
       isPending: false,
       isError: false,
@@ -50,7 +50,7 @@ describe('App', () => {
     const { getByRole } = render(<App />, { wrapper: createWrapper() });
 
     const board = getByRole('region', { name: 'Notes board' });
-    expect(within(board).getByText('Guillermo')).toBeInTheDocument();
-    expect(within(board).getByText(/Buy milk/)).toBeInTheDocument();
+    expect(within(board).getByText('Johnny Doe')).toBeInTheDocument();
+    expect(within(board).getByText(/My note/)).toBeInTheDocument();
   });
 });
