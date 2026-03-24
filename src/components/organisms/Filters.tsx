@@ -9,8 +9,10 @@ export type FiltersProps = {
   colors: string[];
   authorValue: string;
   colorValue: string;
+  sortValue: string;
   onAuthorChange: (value: string) => void;
   onColorChange: (value: string) => void;
+  onSortChange: (value: string) => void;
   controlledRegionId: string;
   resultsCount: number;
 };
@@ -45,13 +47,16 @@ function Filters({
   colors,
   authorValue,
   colorValue,
+  sortValue,
   onAuthorChange,
   onColorChange,
+  onSortChange,
   controlledRegionId,
   resultsCount,
 }: FiltersProps) {
   const authorFieldId = useId();
   const colorFieldId = useId();
+  const sortFieldId = useId();
   const hintId = useId();
   const resultId = useId();
 
@@ -90,6 +95,23 @@ function Filters({
         allLabel="All colors"
         onChange={onColorChange}
         onKeyDown={handleEscapeReset(onColorChange)}
+        ariaDescribedBy={`${hintId} ${resultId}`}
+        ariaControls={controlledRegionId}
+      />
+
+      <SelectInput
+        id={sortFieldId}
+        label="Sort by"
+        value={sortValue}
+        options={[
+          { value: 'author-asc', label: 'author ASC' },
+          { value: 'author-desc', label: 'author DESC' },
+          { value: 'createdAt-asc', label: 'createdAt ASC' },
+          { value: 'createdAt-desc', label: 'createdAt DESC' },
+        ]}
+        allLabel="No sorting"
+        onChange={onSortChange}
+        onKeyDown={handleEscapeReset(onSortChange)}
         ariaDescribedBy={`${hintId} ${resultId}`}
         ariaControls={controlledRegionId}
       />

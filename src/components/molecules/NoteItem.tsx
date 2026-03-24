@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import type { Note } from '../../api/json-server/types/models';
 import { resolveNoteColor } from '../../theme';
+import formatNoteDate from '../../utils/dateUtils';
 import useDomId from '../../utils/hooks/useDomId';
 
-const Root = styled.div<{ $x: number; $y: number }>`
-  position: absolute;
-  left: ${(props) => `${props.$x}px`};
-  top: ${(props) => `${props.$y}px`};
+type NoteItemProps = Note & { isGridMode: boolean };
+
+const Root = styled.div<{ $x: number; $y: number; $isGridMode: boolean }>`
+  position: ${(props) => (props.$isGridMode ? 'static' : 'absolute')};
+  left: ${(props) => (props.$isGridMode ? 'auto' : `${props.$x}px`)};
+  top: ${(props) => (props.$isGridMode ? 'auto' : `${props.$y}px`)};
   width: 240px;
 `;
 
@@ -63,15 +66,16 @@ const Author = styled.address`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-function NoteItem({ id, text, x, y, author, color, createdAt }: Note) {
+function NoteItem({ id, text, x, y, author, color, createdAt, isGridMode }: NoteItemProps) {
   const backgroundColor = resolveNoteColor(color);
+  const formattedCreatedAt = formatNoteDate(createdAt);
   const articleId = useDomId('note');
   const headingId = useDomId('note-heading');
   const timeId = useDomId('note-time');
   const authorId = useDomId('note-author');
 
   return (
-    <Root $x={x} $y={y} data-note-id={id} data-x={x} data-y={y}>
+    <Root $x={x} $y={y} $isGridMode={isGridMode} data-note-id={id} data-x={x} data-y={y}>
       <Article
         id={articleId}
         tabIndex={0}
@@ -81,7 +85,7 @@ function NoteItem({ id, text, x, y, author, color, createdAt }: Note) {
       >
         <Header>
           <CreatedAt id={timeId} dateTime={createdAt}>
-            {createdAt}
+            {formattedCreatedAt}
           </CreatedAt>
         </Header>
         <Body>

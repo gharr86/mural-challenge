@@ -20,6 +20,7 @@ describe('useNotesFilters', () => {
         notes: undefined,
         authorFilter: '',
         colorFilter: '',
+        sortValue: '',
       }),
     );
 
@@ -41,6 +42,7 @@ describe('useNotesFilters', () => {
         notes,
         authorFilter: '',
         colorFilter: '',
+        sortValue: '',
       }),
     );
 
@@ -60,6 +62,7 @@ describe('useNotesFilters', () => {
         notes,
         authorFilter: 'Ada',
         colorFilter: 'tokens.red',
+        sortValue: '',
       }),
     );
 
@@ -74,9 +77,29 @@ describe('useNotesFilters', () => {
         notes,
         authorFilter: '',
         colorFilter: '',
+        sortValue: '',
       }),
     );
 
     expect(result.current.filteredNotes).toEqual(notes);
+  });
+
+  it('applies sorting when sortValue is selected', () => {
+    const notes = [
+      baseNote({ id: '1', author: 'Zoe' }),
+      baseNote({ id: '2', author: 'Ada' }),
+      baseNote({ id: '3', author: 'Bob' }),
+    ];
+
+    const { result } = renderHook(() =>
+      useNotesFilters({
+        notes,
+        authorFilter: '',
+        colorFilter: '',
+        sortValue: 'author-asc',
+      }),
+    );
+
+    expect(result.current.filteredNotes.map((note) => note.id)).toEqual(['2', '3', '1']);
   });
 });

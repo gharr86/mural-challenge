@@ -11,6 +11,7 @@ function App() {
   const { data, isPending, isError, error } = useNotesQuery();
   const [authorFilter, setAuthorFilter] = useState('');
   const [colorFilter, setColorFilter] = useState('');
+  const [sortValue, setSortValue] = useState('');
 
   const mainId = useDomId('main');
   const boardRegionId = useDomId('notes-board');
@@ -18,6 +19,7 @@ function App() {
     notes: data,
     authorFilter,
     colorFilter,
+    sortValue,
   });
 
   return (
@@ -39,12 +41,14 @@ function App() {
             colors={colorOptions}
             authorValue={authorFilter}
             colorValue={colorFilter}
+            sortValue={sortValue}
             onAuthorChange={setAuthorFilter}
             onColorChange={setColorFilter}
+            onSortChange={setSortValue}
             controlledRegionId={boardRegionId}
             resultsCount={filteredNotes.length}
           />
-          <Board notes={filteredNotes} regionId={boardRegionId} />
+          <Board notes={filteredNotes} regionId={boardRegionId} isSorted={Boolean(sortValue)} />
         </>
       )}
     </Main>

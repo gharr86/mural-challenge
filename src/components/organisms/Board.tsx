@@ -6,17 +6,23 @@ import { FILTERS_BAR_HEIGHT_PX } from './Filters';
 type BoardProps = {
   notes: Note[];
   regionId: string;
+  isSorted: boolean;
 };
 
-const Canvas = styled.section`
-  position: relative;
+const Canvas = styled.section<{ $isSorted: boolean }>`
+  position: ${(p) => (p.$isSorted ? 'static' : 'relative')};
   width: 100%;
   min-height: calc(100vh - ${FILTERS_BAR_HEIGHT_PX}px);
+  display: ${(p) => (p.$isSorted ? 'flex' : 'block')};
+  flex-direction: ${(p) => (p.$isSorted ? 'column' : 'row')};
+  gap: ${(p) => (p.$isSorted ? '1rem' : '0')};
+  padding: ${(p) => (p.$isSorted ? '1rem' : '0')};
+  align-items: ${(p) => (p.$isSorted ? 'flex-start' : 'normal')};
 `;
 
-function Board({ notes, regionId }: BoardProps) {
+function Board({ notes, regionId, isSorted }: BoardProps) {
   return (
-    <Canvas id={regionId} role="region" aria-label="Notes board" tabIndex={-1}>
+    <Canvas id={regionId} role="region" aria-label="Notes board" tabIndex={-1} $isSorted={isSorted}>
       {notes.map((note) => (
         <NoteItem
           key={note.id}
@@ -27,6 +33,7 @@ function Board({ notes, regionId }: BoardProps) {
           author={note.author}
           color={note.color}
           createdAt={note.createdAt}
+          isGridMode={isSorted}
         />
       ))}
     </Canvas>
