@@ -15,7 +15,7 @@ function App() {
 
   const mainId = useDomId('main');
   const boardRegionId = useDomId('notes-board');
-  const { filteredNotes, authorOptions, colorOptions } = useNotesFilters({
+  const { filteredNotes, authorOptions, colorOptions, mostRecentNoteId } = useNotesFilters({
     notes: data,
     authorFilter,
     colorFilter,
@@ -48,7 +48,12 @@ function App() {
             controlledRegionId={boardRegionId}
             resultsCount={filteredNotes.length}
           />
-          <Board notes={filteredNotes} regionId={boardRegionId} isSorted={Boolean(sortValue)} />
+          <Board
+            notes={filteredNotes}
+            regionId={boardRegionId}
+            isSorted={Boolean(sortValue)}
+            mostRecentNoteId={mostRecentNoteId}
+          />
         </>
       )}
     </Main>

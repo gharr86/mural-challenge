@@ -14,6 +14,7 @@ type UseNotesFiltersResult = {
   filteredNotes: Note[];
   authorOptions: string[];
   colorOptions: string[];
+  mostRecentNoteId: string | null;
 };
 
 function uniqueSorted(values: string[]): string[] {
@@ -43,10 +44,18 @@ export default function useNotesFilters({
 
   const authorOptions = useMemo(() => uniqueSorted(notes?.map((n) => n.author) ?? []), [notes]);
   const colorOptions = useMemo(() => uniqueSorted(notes?.map((n) => n.color) ?? []), [notes]);
+  const mostRecentNoteId = useMemo(() => {
+    if (filteredNotes.length === 0) return null;
+
+    return filteredNotes.reduce((latest, current) =>
+      Date.parse(current.createdAt) > Date.parse(latest.createdAt) ? current : latest,
+    ).id;
+  }, [filteredNotes]);
 
   return {
     filteredNotes,
     authorOptions,
     colorOptions,
+    mostRecentNoteId,
   };
 }

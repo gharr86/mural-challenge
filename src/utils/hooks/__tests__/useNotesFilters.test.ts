@@ -27,6 +27,7 @@ describe('useNotesFilters', () => {
     expect(result.current.filteredNotes).toEqual([]);
     expect(result.current.authorOptions).toEqual([]);
     expect(result.current.colorOptions).toEqual([]);
+    expect(result.current.mostRecentNoteId).toBeNull();
   });
 
   it('returns unique sorted author and color options from notes', () => {
@@ -101,5 +102,24 @@ describe('useNotesFilters', () => {
     );
 
     expect(result.current.filteredNotes.map((note) => note.id)).toEqual(['2', '3', '1']);
+  });
+
+  it('returns the id of the most recent note in current results', () => {
+    const notes = [
+      baseNote({ id: '1', createdAt: '2026-03-10T09:30:00.000Z' }),
+      baseNote({ id: '2', createdAt: '2026-03-22T09:30:00.000Z' }),
+      baseNote({ id: '3', createdAt: '2026-03-20T12:00:00.000Z' }),
+    ];
+
+    const { result } = renderHook(() =>
+      useNotesFilters({
+        notes,
+        authorFilter: '',
+        colorFilter: '',
+        sortValue: '',
+      }),
+    );
+
+    expect(result.current.mostRecentNoteId).toBe('2');
   });
 });

@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import type { Note } from '../../api/json-server/types/models';
 import { resolveNoteColor } from '../../theme';
 import formatNoteDate from '../../utils/dateUtils';
 import useDomId from '../../utils/hooks/useDomId';
 
-type NoteItemProps = Note & { isGridMode: boolean };
+type NoteItemProps = Note & { isGridMode: boolean; isHighlighted: boolean };
 
 const Root = styled.div<{ $x: number; $y: number; $isGridMode: boolean }>`
   position: ${(props) => (props.$isGridMode ? 'static' : 'absolute')};
@@ -13,7 +13,13 @@ const Root = styled.div<{ $x: number; $y: number; $isGridMode: boolean }>`
   width: 240px;
 `;
 
-const Article = styled.article<{ $backgroundColor: string }>`
+const pulseBorderWidth = keyframes`
+  0% { border-width: 1px; }
+  50% { border-width: 4px; }
+  100% { border-width: 1px; }
+`;
+
+const Article = styled.article<{ $backgroundColor: string; $isHighlighted: boolean }>`
   display: flex;
   flex-direction: column;
   min-height: 140px;
@@ -22,6 +28,11 @@ const Article = styled.article<{ $backgroundColor: string }>`
   border: 1px solid rgba(17, 24, 39, 0.12);
   background: ${(p) => p.$backgroundColor};
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+  ${(p) =>
+    p.$isHighlighted &&
+    css`
+      animation: ${pulseBorderWidth} 1.2s ease-in-out infinite;
+    `}
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusRing};
@@ -66,7 +77,17 @@ const Author = styled.address`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-function NoteItem({ id, text, x, y, author, color, createdAt, isGridMode }: NoteItemProps) {
+function NoteItem({
+  id,
+  text,
+  x,
+  y,
+  author,
+  color,
+  createdAt,
+  isGridMode,
+  isHighlighted,
+}: NoteItemProps) {
   const backgroundColor = resolveNoteColor(color);
   const formattedCreatedAt = formatNoteDate(createdAt);
   const articleId = useDomId('note');
@@ -80,6 +101,7 @@ function NoteItem({ id, text, x, y, author, color, createdAt, isGridMode }: Note
         id={articleId}
         tabIndex={0}
         $backgroundColor={backgroundColor}
+        $isHighlighted={isHighlighted}
         aria-labelledby={headingId}
         aria-describedby={`${timeId} ${authorId}`}
       >

@@ -7,6 +7,7 @@ type BoardProps = {
   notes: Note[];
   regionId: string;
   isSorted: boolean;
+  mostRecentNoteId: string | null;
 };
 
 const Canvas = styled.section<{ $isSorted: boolean }>`
@@ -20,7 +21,7 @@ const Canvas = styled.section<{ $isSorted: boolean }>`
   align-items: ${(p) => (p.$isSorted ? 'flex-start' : 'normal')};
 `;
 
-function Board({ notes, regionId, isSorted }: BoardProps) {
+function Board({ notes, regionId, isSorted, mostRecentNoteId }: BoardProps) {
   return (
     <Canvas id={regionId} role="region" aria-label="Notes board" tabIndex={-1} $isSorted={isSorted}>
       {notes.map((note) => (
@@ -34,6 +35,7 @@ function Board({ notes, regionId, isSorted }: BoardProps) {
           color={note.color}
           createdAt={note.createdAt}
           isGridMode={isSorted}
+          isHighlighted={note.id === mostRecentNoteId}
         />
       ))}
     </Canvas>
